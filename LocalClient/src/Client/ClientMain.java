@@ -66,7 +66,7 @@ public class ClientMain {
                         && commandArray[1].equals(MsgToServer.FILE_UPLOAD)) {
                     uploadSuc = FileUploadRequest.init(commandArray, outWriter);
                 } else {
-                    String AESRequest = AEScoding.encrypt(formedRequest, Setter.AES_KEY);
+                    String AESRequest = Encryption.encrypt(formedRequest, Setter.SECURITY_KEY);
                     byte[] requestArray = new byte[AESRequest.length()];
                     requestArray = AESRequest.getBytes(StandardCharsets.UTF_8);
                     outWriter.write(requestArray, 0, requestArray.length);
@@ -104,7 +104,7 @@ public class ClientMain {
             InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         String[] loginReuqest = stdIn.readLine().split("\\s");
         String formedLoginReuqest = String.join(Setter.NEWLINE, loginReuqest);
-        String AESLogin = AEScoding.encrypt(formedLoginReuqest, Setter.AES_KEY);
+        String AESLogin = Encryption.encrypt(formedLoginReuqest, Setter.SECURITY_KEY);
         byte[] loginReBy = new byte[AESLogin.length()];
         loginReBy = AESLogin.getBytes(StandardCharsets.UTF_8);
         outWriter.write(loginReBy, 0, loginReBy.length);
@@ -123,7 +123,7 @@ public class ClientMain {
             }
         }
         String responseFromServer = new String(fromServer, 0, bytesRead);
-        String deAESResponse = AEScoding.decrypt(responseFromServer, Setter.AES_KEY);
+        String deAESResponse = Encryption.decrypt(responseFromServer, Setter.SECURITY_KEY);
         return deAESResponse;
     }
 

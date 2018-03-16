@@ -38,7 +38,7 @@ public class FileUploadRequest {
                         + Setter.NEWLINE;
                 String content = new String(Files.readAllBytes(Paths.get(filePath)));
                 String request = requestHeader + content;
-                String AESrequest = AEScoding.encrypt(request, Setter.AES_KEY);
+                String AESrequest = Encryption.encrypt(request, Setter.SECURITY_KEY);
                 byte[] requestArray = new byte[(int) AESrequest.length()];
                 requestArray = AESrequest.getBytes(StandardCharsets.UTF_8);
                 outWriter.write(requestArray, 0, requestArray.length);
